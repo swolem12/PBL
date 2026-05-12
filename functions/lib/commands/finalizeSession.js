@@ -6,6 +6,7 @@ const firestore_1 = require("firebase-admin/firestore");
 const auth_1 = require("../lib/auth");
 const collections_1 = require("../lib/collections");
 const secureCallable_1 = require("../lib/secureCallable");
+const scope_1 = require("../lib/scope");
 const session_1 = require("../schemas/session");
 function callerIsStaff(caller) {
     return (caller.isSiteAdmin ||
@@ -33,6 +34,9 @@ exports.finalizeSession = (0, https_1.onCall)(secureCallable_1.SECURE_CALLABLE_O
         throw new https_1.HttpsError("invalid-argument", parsed.error.message);
     }
     const { sessionId, standingsSnapshot, updatedPlayerStats } = parsed.data;
+    // Staff claim is not scope-aware. Re-resolve the session's owning league
+    // and require the caller has a director/coordinator role for that scope.
+    await (0, scope_1.requireSessionScope)(caller.uid, caller.isSiteAdmin, sessionId);
     const db = (0, firestore_1.getFirestore)();
     // Idempotency check + state guard outside the batch (a single read).
     const sessionRef = db.doc(`${collections_1.COLLECTIONS.ladderSessions}/${sessionId}`);
@@ -48,6 +52,26 @@ exports.finalizeSession = (0, https_1.onCall)(secureCallable_1.SECURE_CALLABLE_O
     // 1 session + 1 snapshot + N players + 1 audit. Cap defensively at 500.
     if (playerIds.length > 495) {
         throw new https_1.HttpsError("out-of-range", `Cannot finalize: too many players (${playerIds.length}); chunking required.`);
+    }
+    // Restrict updatedPlayerStats to players actually assigned to a court in
+    // this session. Otherwise a coordinator could pass arbitrary player IDs in
+    // the patch map and overwrite stats for players outside the session.
+    const courtsSnap = await db
+        .collection(collections_1.COLLECTIONS.ladderCourts)
+        .where("sessionId", "==", sessionId)
+        .get();
+    const sessionParticipants = new Set();
+    for (const courtDoc of courtsSnap.docs) {
+        const ids = courtDoc.data().playerIds;
+        if (Array.isArray(ids)) {
+            for (const id of ids)
+                sessionParticipants.add(id);
+        }
+    }
+    for (const playerId of playerIds) {
+        if (!sessionParticipants.has(playerId)) {
+            throw new https_1.HttpsError("permission-denied", `Player ${playerId} is not part of session ${sessionId}.`);
+        }
     }
     const batch = db.batch();
     const now = firestore_1.Timestamp.now();

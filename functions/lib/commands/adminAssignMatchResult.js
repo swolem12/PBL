@@ -6,6 +6,7 @@ const firestore_1 = require("firebase-admin/firestore");
 const auth_1 = require("../lib/auth");
 const collections_1 = require("../lib/collections");
 const secureCallable_1 = require("../lib/secureCallable");
+const scope_1 = require("../lib/scope");
 const match_1 = require("../schemas/match");
 function callerIsStaff(caller) {
     return (caller.isSiteAdmin ||
@@ -22,6 +23,11 @@ exports.adminAssignMatchResult = (0, https_1.onCall)(secureCallable_1.SECURE_CAL
         throw new https_1.HttpsError("invalid-argument", parsed.error.message);
     }
     const { matchId, scoreA, scoreB } = parsed.data;
+    // The legacy staff claim is not scope-aware. A LEAGUE_COORDINATOR for club X
+    // must not be able to override a match in club Y, so re-resolve the match's
+    // owning league and require the caller has a director/coordinator role
+    // scoped to that league or its club.
+    await (0, scope_1.requireMatchScope)(caller.uid, caller.isSiteAdmin, matchId);
     if (scoreA === scoreB) {
         throw new https_1.HttpsError("invalid-argument", "Ladder matches cannot be assigned a tie.");
     }

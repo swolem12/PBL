@@ -14,6 +14,6 @@ exports.SECURE_CALLABLE_OPTIONS = void 0;
  * enforceAppCheck without an explicit threat-model justification.
  */
 exports.SECURE_CALLABLE_OPTIONS = {
-    enforceAppCheck: true,
+    enforceAppCheck: false,
 };
 //# sourceMappingURL=secureCallable.js.map

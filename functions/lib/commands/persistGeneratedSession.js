@@ -6,6 +6,7 @@ const firestore_1 = require("firebase-admin/firestore");
 const auth_1 = require("../lib/auth");
 const collections_1 = require("../lib/collections");
 const secureCallable_1 = require("../lib/secureCallable");
+const scope_1 = require("../lib/scope");
 const session_1 = require("../schemas/session");
 function callerIsStaff(caller) {
     return (caller.isSiteAdmin ||
@@ -33,10 +34,25 @@ exports.persistGeneratedSession = (0, https_1.onCall)(secureCallable_1.SECURE_CA
         throw new https_1.HttpsError("invalid-argument", parsed.error.message);
     }
     const { sessionDoc, courts, matches } = parsed.data;
+    // Staff claim is not scope-aware. Resolve the target play date's owning
+    // league and require the caller has a director/coordinator role for that
+    // scope before allowing a session overwrite.
+    await (0, scope_1.requirePlayDateScope)(caller.uid, caller.isSiteAdmin, sessionDoc.playDateId);
     const db = (0, firestore_1.getFirestore)();
     const batch = db.batch();
     const now = firestore_1.Timestamp.now();
     const sessionRef = db.doc(`${collections_1.COLLECTIONS.ladderSessions}/${sessionDoc.id}`);
+    // Defense in depth: if the session already exists, require it belongs to
+    // the play date the caller just authorized. Otherwise a coordinator for
+    // play date X could pass `sessionDoc.id` belonging to play date Y and
+    // overwrite a session in another league.
+    const existingSession = await sessionRef.get();
+    if (existingSession.exists) {
+        const existing = existingSession.data();
+        if (existing.playDateId && existing.playDateId !== sessionDoc.playDateId) {
+            throw new https_1.HttpsError("permission-denied", "Session already exists for a different play date.");
+        }
+    }
     batch.set(sessionRef, {
         ...stripUndefined(sessionDoc),
         generatedBy: caller.uid,
