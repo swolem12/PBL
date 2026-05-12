@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.finalizeSession = exports.persistGeneratedSession = exports.adminAssignMatchResult = exports.disputeMatch = exports.verifyMatchScore = exports.submitMatchScore = exports.syncMyClaims = exports.setUserGlobalRole = exports.deactivateUserRole = exports.assignRole = exports.rejectClub = exports.onClubCreated = exports.approveClub = void 0;
+exports.finalizeSession = exports.persistGeneratedSession = exports.adminAssignMatchResult = exports.disputeMatch = exports.verifyMatchScore = exports.submitMatchScore = exports.syncMyClaims = exports.setUserGlobalRole = exports.deactivateUserRole = exports.assignRole = exports.rejectClub = exports.notifyAdminsOfClubSubmission = exports.approveClub = void 0;
 const app_1 = require("firebase-admin/app");
 const v2_1 = require("firebase-functions/v2");
 (0, app_1.initializeApp)();
@@ -10,8 +10,8 @@ const v2_1 = require("firebase-functions/v2");
 });
 var approveClub_1 = require("./commands/approveClub");
 Object.defineProperty(exports, "approveClub", { enumerable: true, get: function () { return approveClub_1.approveClub; } });
-var onClubCreated_1 = require("./triggers/onClubCreated");
-Object.defineProperty(exports, "onClubCreated", { enumerable: true, get: function () { return onClubCreated_1.onClubCreated; } });
+var notifyAdminsOfClubSubmission_1 = require("./commands/notifyAdminsOfClubSubmission");
+Object.defineProperty(exports, "notifyAdminsOfClubSubmission", { enumerable: true, get: function () { return notifyAdminsOfClubSubmission_1.notifyAdminsOfClubSubmission; } });
 var rejectClub_1 = require("./commands/rejectClub");
 Object.defineProperty(exports, "rejectClub", { enumerable: true, get: function () { return rejectClub_1.rejectClub; } });
 var assignRole_1 = require("./commands/assignRole");
