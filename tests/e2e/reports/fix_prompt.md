@@ -1,43 +1,13 @@
 # E2E Test Fix Request
 
-I have 6 failing E2E Playwright tests to fix.
+I have 5 failing E2E Playwright tests to fix.
 **Test framework:** Python Playwright + pytest (Page Object Model)
 **Test directory:** `tests/e2e/`  **Page objects:** `tests/e2e/pages/`
 **App:** Next.js 15 + Firebase Auth (client-side auth guards — no server-side redirects on auth failure)
 
 ---
 
-## Issue 1: UC-AUTH-001 — Valid credentials redirect to app
-
-**Status:** FAIL  **Persona:** Auth
-**Test node:** `test_auth.py::TestEmailLogin::test_valid_credentials_redirect_to_app`
-
-**Acceptance criteria (do not change):**
-- Login form accepts email and password
-- Correct credentials redirect away from /auth/login
-- User is not returned to the login page
-
-**Failed at step:** "Verify redirected away from login"
-```
-AssertionError: Expected to be signed in but URL is: https://pickleleauge.web.app/auth/login/
-```
-
-**Error:**
-```
-E   AssertionError: Expected to be signed in but URL is: https://pickleleauge.web.app/auth/login/
-```
-
-**Suggested fix:**
-URL assertion failed during: "Verify redirected away from login".
-
-Fix:
-• For login tests: verify the account exists in Firebase
-• For RBAC tests: check both URL redirect AND inline login UI rendering
-• Update the assertion to accept client-side auth guard behavior (URL may not change)
-
----
-
-## Issue 2: UC-AUTH-005 — Login page has signup link
+## Issue 1: UC-AUTH-005 — Login page has signup link
 
 **Status:** FAIL  **Persona:** Auth
 **Test node:** `test_auth.py::TestEmailLogin::test_login_page_has_signup_link`
@@ -50,12 +20,12 @@ Fix:
 ```
 AssertionError: assert '/auth/signup' in 'https://pickleleauge.web.app/auth/login/'
  +  where 'https://pickleleauge.web.app/auth/login/' = <Page url='https://pickleleauge.web.app/auth/login/'>.url
- +    where <Page url='https://pickleleauge.web.app/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x0000021D252263F0>.page
+ +    where <Page url='https://pickleleauge.web.app/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x000001CA3D69A520>.page
 ```
 
 **Error:**
 ```
-E    +    where <Page url='https://pickleleauge.web.app/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x0000021D252263F0>.page
+E    +    where <Page url='https://pickleleauge.web.app/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x000001CA3D69A520>.page
 ```
 
 **Suggested fix:**
@@ -70,7 +40,7 @@ Fix: Use placeholder selectors in auth_page.py sign_up():
 
 ---
 
-## Issue 3: UC-AUTH-008 — Weak password shows strength indicator
+## Issue 2: UC-AUTH-008 — Weak password shows strength indicator
 
 **Status:** FAIL  **Persona:** Auth
 **Test node:** `test_auth.py::TestSignup::test_weak_password_shows_strength_indicator`
@@ -107,7 +77,7 @@ Fix: Use placeholder selectors in auth_page.py sign_up():
 
 ---
 
-## Issue 4: UC-AUTH-009 — Duplicate email returns error on signup
+## Issue 3: UC-AUTH-009 — Duplicate email returns error on signup
 
 **Status:** FAIL  **Persona:** Auth
 **Test node:** `test_auth.py::TestSignup::test_duplicate_email_shows_error`
@@ -144,7 +114,7 @@ Fix:
 
 ---
 
-## Issue 5: UC-AUTH-011 — Unknown email handled gracefully on password reset
+## Issue 4: UC-AUTH-011 — Unknown email handled gracefully on password reset
 
 **Status:** FAIL  **Persona:** Auth
 **Test node:** `test_auth.py::TestPasswordReset::test_unknown_email_handled_gracefully`
@@ -181,7 +151,7 @@ Fix:
 
 ---
 
-## Issue 6: UC-AUTH-012 — Sign out redirects to login or home
+## Issue 5: UC-AUTH-012 — Sign out redirects to login or home
 
 **Status:** FAIL  **Persona:** Auth
 **Test node:** `test_auth.py::TestSignOut::test_sign_out_redirects_to_login`
