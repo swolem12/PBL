@@ -1,0 +1,395 @@
+[
+  {
+    "node_id": "test_auth.py::TestEmailLogin::test_valid_credentials_redirect_to_app",
+    "uc_id": "UC-AUTH-001",
+    "name": "Valid credentials redirect to app",
+    "persona": "Auth",
+    "criteria": [
+      "Login form accepts email and password",
+      "Correct credentials redirect away from /auth/login",
+      "User is not returned to the login page"
+    ],
+    "status": "FAIL",
+    "duration_s": 5.57,
+    "error_message": "E   AssertionError: Expected to be signed in but URL is: http://localhost:3000/auth/login/",
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to login page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Enter valid player credentials and submit",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Verify redirected away from login",
+        "passed": false,
+        "error": "AssertionError: Expected to be signed in but URL is: http://localhost:3000/auth/login/"
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestEmailLogin::test_wrong_password_shows_error",
+    "uc_id": "UC-AUTH-002",
+    "name": "Wrong password shows error message",
+    "persona": "Auth",
+    "criteria": [
+      "Submitting an incorrect password shows an inline error",
+      "User remains on the login page",
+      "No redirect occurs"
+    ],
+    "status": "PASS",
+    "duration_s": 2.43,
+    "error_message": null,
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to login page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Submit with wrong password",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Verify error message is visible",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 4,
+        "description": "Verify still on login page",
+        "passed": true,
+        "error": null
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestEmailLogin::test_empty_email_shows_validation",
+    "uc_id": "UC-AUTH-003",
+    "name": "Empty email prevents form submission",
+    "persona": "Auth",
+    "criteria": [
+      "Submitting with a blank email field does not navigate away",
+      "Client-side validation fires before network request"
+    ],
+    "status": "PASS",
+    "duration_s": 2.47,
+    "error_message": null,
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to login page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Fill only password, leave email blank",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Click Sign In without email",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 4,
+        "description": "Confirm still on login page",
+        "passed": true,
+        "error": null
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestEmailLogin::test_unknown_email_shows_error",
+    "uc_id": "UC-AUTH-004",
+    "name": "Unknown email shows authentication error",
+    "persona": "Auth",
+    "criteria": [
+      "A non-existent account returns an error",
+      "No crash or unhandled exception occurs"
+    ],
+    "status": "PASS",
+    "duration_s": 2.2,
+    "error_message": null,
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to login page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Submit credentials for non-existent account",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Verify error is displayed",
+        "passed": true,
+        "error": null
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestEmailLogin::test_login_page_has_signup_link",
+    "uc_id": "UC-AUTH-005",
+    "name": "Login page has signup link",
+    "persona": "Auth",
+    "criteria": [
+      "A 'Sign Up' or 'Create Account' link is visible on the login page",
+      "Clicking it navigates to /auth/signup"
+    ],
+    "status": "FAIL",
+    "duration_s": 2.17,
+    "error_message": "E    +    where <Page url='http://localhost:3000/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x0000019BF71468B0>.page",
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to login page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Find signup link",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Click signup link and verify navigation",
+        "passed": false,
+        "error": "AssertionError: assert '/auth/signup' in 'http://localhost:3000/auth/login/'\n +  where 'http://localhost:3000/auth/login/' = <Page url='http://localhost:3000/auth/login/'>.url\n +    where <Page url='http://localhost:3000/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x0000019BF71468B0>.page"
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestEmailLogin::test_login_page_has_forgot_password_link",
+    "uc_id": "UC-AUTH-006",
+    "name": "Login page has forgot-password link",
+    "persona": "Auth",
+    "criteria": [
+      "A forgot-password link is visible on the login page"
+    ],
+    "status": "PASS",
+    "duration_s": 2.54,
+    "error_message": null,
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to login page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Verify forgot-password link is visible",
+        "passed": true,
+        "error": null
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestSignup::test_signup_form_renders_all_fields",
+    "uc_id": "UC-AUTH-007",
+    "name": "Signup form renders all required fields",
+    "persona": "Auth",
+    "criteria": [
+      "First Name field is present",
+      "Last Name field is present",
+      "Email field is present",
+      "Password field is present"
+    ],
+    "status": "PASS",
+    "duration_s": 2.62,
+    "error_message": null,
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to signup page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Verify First Name field exists",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Verify Last Name field exists",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 4,
+        "description": "Verify Email field exists",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 5,
+        "description": "Verify Password field exists",
+        "passed": true,
+        "error": null
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestSignup::test_weak_password_shows_strength_indicator",
+    "uc_id": "UC-AUTH-008",
+    "name": "Weak password shows strength indicator",
+    "persona": "Auth",
+    "criteria": [
+      "Typing a weak password surfaces a visual strength indicator",
+      "Indicator appears without form submission"
+    ],
+    "status": "FAIL",
+    "duration_s": 5.14,
+    "error_message": "E     - waiting for get_by_text(\"Weak\").or_(locator(\".password-strength, [data-testid='pw-strength']\")).first",
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to signup page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Type a weak password",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Verify strength indicator appears",
+        "passed": false,
+        "error": "AssertionError: Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" with timeout 3000ms\n  - waiting for get_by_text(\"Weak\").or_(locator(\".password-strength, [data-testid='pw-strength']\")).first\n"
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestSignup::test_duplicate_email_shows_error",
+    "uc_id": "UC-AUTH-009",
+    "name": "Duplicate email returns error on signup",
+    "persona": "Auth",
+    "criteria": [
+      "Registering with an already-used email shows an error",
+      "No account is created"
+    ],
+    "status": "FAIL",
+    "duration_s": 13.37,
+    "error_message": "E     - waiting for get_by_role(\"main\").get_by_role(\"button\", name=\"Sign Up\")",
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to signup page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Submit form with an existing email",
+        "passed": false,
+        "error": "TimeoutError: Locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for get_by_role(\"main\").get_by_role(\"button\", name=\"Sign Up\")\n"
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestPasswordReset::test_forgot_password_form_renders",
+    "uc_id": "UC-AUTH-010",
+    "name": "Forgot password form renders correctly",
+    "persona": "Auth",
+    "criteria": [
+      "Email field is present",
+      "Submit button is present"
+    ],
+    "status": "PASS",
+    "duration_s": 2.09,
+    "error_message": null,
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to forgot-password page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Verify email field is visible",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 3,
+        "description": "Verify send-reset button is visible",
+        "passed": true,
+        "error": null
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestPasswordReset::test_unknown_email_handled_gracefully",
+    "uc_id": "UC-AUTH-011",
+    "name": "Unknown email handled gracefully on password reset",
+    "persona": "Auth",
+    "criteria": [
+      "Submitting an unknown email does not crash the page",
+      "A confirmation or success message is shown"
+    ],
+    "status": "FAIL",
+    "duration_s": 13.48,
+    "error_message": "E     - waiting for get_by_role(\"button\", name=\"Send Reset Email\")",
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to forgot-password page",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Submit an unknown email",
+        "passed": false,
+        "error": "TimeoutError: Locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for get_by_role(\"button\", name=\"Send Reset Email\")\n"
+      }
+    ]
+  },
+  {
+    "node_id": "test_auth.py::TestSignOut::test_sign_out_redirects_to_login",
+    "uc_id": "UC-AUTH-012",
+    "name": "Sign out redirects to login or home",
+    "persona": "Auth",
+    "criteria": [
+      "Clicking sign-out removes the authenticated session",
+      "User is redirected to /auth/login or the home page"
+    ],
+    "status": "FAIL",
+    "duration_s": 33.2,
+    "error_message": "E     - navigating to \"http://localhost:3000/\", waiting until \"networkidle\"",
+    "steps": [
+      {
+        "index": 1,
+        "description": "Navigate to dashboard as player",
+        "passed": false,
+        "error": "TimeoutError: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:3000/\", waiting until \"networkidle\"\n"
+      }
+    ]
+  }
+]
