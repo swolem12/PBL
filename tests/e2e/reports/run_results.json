@@ -10,7 +10,7 @@
       "User is not returned to the login page"
     ],
     "status": "FAIL",
-    "duration_s": 5.57,
+    "duration_s": 5.55,
     "error_message": "E   AssertionError: Expected to be signed in but URL is: http://localhost:3000/auth/login/",
     "steps": [
       {
@@ -44,7 +44,7 @@
       "No redirect occurs"
     ],
     "status": "PASS",
-    "duration_s": 2.43,
+    "duration_s": 2.5,
     "error_message": null,
     "steps": [
       {
@@ -83,7 +83,7 @@
       "Client-side validation fires before network request"
     ],
     "status": "PASS",
-    "duration_s": 2.47,
+    "duration_s": 2.33,
     "error_message": null,
     "steps": [
       {
@@ -122,7 +122,7 @@
       "No crash or unhandled exception occurs"
     ],
     "status": "PASS",
-    "duration_s": 2.2,
+    "duration_s": 2.42,
     "error_message": null,
     "steps": [
       {
@@ -155,8 +155,8 @@
       "Clicking it navigates to /auth/signup"
     ],
     "status": "FAIL",
-    "duration_s": 2.17,
-    "error_message": "E    +    where <Page url='http://localhost:3000/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x0000019BF71468B0>.page",
+    "duration_s": 2.18,
+    "error_message": "E    +    where <Page url='http://localhost:3000/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x000002AD61D72520>.page",
     "steps": [
       {
         "index": 1,
@@ -174,7 +174,7 @@
         "index": 3,
         "description": "Click signup link and verify navigation",
         "passed": false,
-        "error": "AssertionError: assert '/auth/signup' in 'http://localhost:3000/auth/login/'\n +  where 'http://localhost:3000/auth/login/' = <Page url='http://localhost:3000/auth/login/'>.url\n +    where <Page url='http://localhost:3000/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x0000019BF71468B0>.page"
+        "error": "AssertionError: assert '/auth/signup' in 'http://localhost:3000/auth/login/'\n +  where 'http://localhost:3000/auth/login/' = <Page url='http://localhost:3000/auth/login/'>.url\n +    where <Page url='http://localhost:3000/auth/login/'> = <tests.e2e.pages.auth_page.AuthPage object at 0x000002AD61D72520>.page"
       }
     ]
   },
@@ -187,7 +187,7 @@
       "A forgot-password link is visible on the login page"
     ],
     "status": "PASS",
-    "duration_s": 2.54,
+    "duration_s": 2.16,
     "error_message": null,
     "steps": [
       {
@@ -216,7 +216,7 @@
       "Password field is present"
     ],
     "status": "PASS",
-    "duration_s": 2.62,
+    "duration_s": 2.32,
     "error_message": null,
     "steps": [
       {
@@ -261,7 +261,7 @@
       "Indicator appears without form submission"
     ],
     "status": "FAIL",
-    "duration_s": 5.14,
+    "duration_s": 5.34,
     "error_message": "E     - waiting for get_by_text(\"Weak\").or_(locator(\".password-strength, [data-testid='pw-strength']\")).first",
     "steps": [
       {
@@ -294,7 +294,7 @@
       "No account is created"
     ],
     "status": "FAIL",
-    "duration_s": 13.37,
+    "duration_s": 13.49,
     "error_message": "E     - waiting for get_by_role(\"main\").get_by_role(\"button\", name=\"Sign Up\")",
     "steps": [
       {
@@ -321,7 +321,7 @@
       "Submit button is present"
     ],
     "status": "PASS",
-    "duration_s": 2.09,
+    "duration_s": 2.19,
     "error_message": null,
     "steps": [
       {
@@ -354,7 +354,7 @@
       "A confirmation or success message is shown"
     ],
     "status": "FAIL",
-    "duration_s": 13.48,
+    "duration_s": 13.59,
     "error_message": "E     - waiting for get_by_role(\"button\", name=\"Send Reset Email\")",
     "steps": [
       {
@@ -381,14 +381,20 @@
       "User is redirected to /auth/login or the home page"
     ],
     "status": "FAIL",
-    "duration_s": 33.2,
-    "error_message": "E     - navigating to \"http://localhost:3000/\", waiting until \"networkidle\"",
+    "duration_s": 15.41,
+    "error_message": "E     - waiting for get_by_role(\"button\", name=\"Sign Out\").or_(get_by_role(\"menuitem\", name=\"Sign Out\"))",
     "steps": [
       {
         "index": 1,
         "description": "Navigate to dashboard as player",
+        "passed": true,
+        "error": null
+      },
+      {
+        "index": 2,
+        "description": "Trigger sign-out",
         "passed": false,
-        "error": "TimeoutError: Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:3000/\", waiting until \"networkidle\"\n"
+        "error": "TimeoutError: Locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for get_by_role(\"button\", name=\"Sign Out\").or_(get_by_role(\"menuitem\", name=\"Sign Out\"))\n"
       }
     ]
   }
